@@ -16,6 +16,15 @@ import sample8 from '../subpage/8.png'
 import sample9 from '../subpage/9.png'
 import sample10 from '../subpage/10.png'
 
+const HOME_TIMELINE: { period: string; detail: string }[] = [
+    { period: '2024年11月', detail: '活動申請，面見坊會社工/ 職員' },
+    {
+        period: '2024年12月',
+        detail: '簡介會，跟Future Leaders Union學了一些AI 科技的技巧和工具，即日提交了改良版的計劃書。',
+    },
+    { period: '2025年1月', detail: 'Pitching' },
+]
+
 export default function Home() {
     const [isAdmin, setIsAdmin] = useState(localStorage.getItem('aka_is_admin') === 'true')
     const [sliderImages, setSliderImages] = useState<string[] | null>(null)
@@ -187,22 +196,57 @@ export default function Home() {
             <section style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'center', marginTop: 0 }}>
                 <div style={{ width: '100%' }}>
                     <img src={heroImg} alt="Hero" style={{ display: 'block', margin: '0 auto', maxWidth: '80%', width: 'auto', height: 'auto', objectFit: 'contain' }} />
-                    <p style={{ maxWidth: '70%', margin: '50px auto', fontSize: '0.95rem', lineHeight: 1.6 }}>
-                        「點子集氣箱」青年自主資助計劃由香港賽馬會慈善信託基金策劃及捐助，並由香港仔坊會社會服務賽馬會綜合服務處主辦。
-                    </p>
-                    <div style={{ maxWidth: '78%', margin: '16px auto 0', background: '#333333', padding: '20px 16px', borderRadius: 8 }}>
+                    <div style={{ maxWidth: '70%', margin: '40px auto 20px', lineHeight: 1.8, textAlign: 'left' }}>
+                        <h2 style={{ margin: '0 0 16px 0', color: '#5588df', fontSize: '1.6rem' }}>賽馬會21世紀綜合青少年服務中心計劃</h2>
+                        <p style={{ margin: '0 0 16px 0', fontSize: '0.95rem' }}>
+                            賽馬會21世紀綜合青少年服務中心計劃（21C@JC）透過重新打造本地綜合青少年服務中心，建立與未來接軌、虛實兼備的全新空間，助青年人推動社區公益發展。我們更建立首個線上中心，連結線下服務，提供以青年為本的全新體驗，鼓勵青少年釋放潛能，一同開拓光輝未來。
+                        </p>
+                        <p style={{ margin: '0 0 16px 0', fontSize: '0.95rem' }}>
+                            計劃共有15個機構轄下36間綜合青少年服務中心參加，將與青少年攜手走過這個創變之旅，為未來更廣闊的跨界別合作創造良好氛圍及基礎。預計至2026年10月，計劃將惠及超過50,000名青少年，並培育超過400名社工，推動由青少年主導的服務。
+                        </p>
+                        <p style={{ margin: 0, fontSize: '0.95rem' }}>
+                            計劃目的旨在讓青年人在社區內舉行推動由他們主導的計劃，透過這個計劃，申請隊伍可以學習新技能、發揮自己的才能、創意及愛心，以實踐他們對其社區的想法，回應社區的需要。</p>
+                    </div>
+
+                    <div style={{ maxWidth: '78%', margin: '16px auto 0', background: '#333333', padding: '20px 16px', borderRadius: 8, textAlign: 'left' }}>
                         <div className="blackBoxGrid">
                             <div style={{ textAlign: 'left' }}>
                                 <h2 style={{ margin: 0, fontSize: '1.6rem', color: '#5588df' }}>計劃內容</h2>
-                                <p style={{ marginTop: 12, lineHeight: 1.2, fontSize: '1rem', color: '#ffffff' }}>
+                                <p style={{ marginTop: 12, lineHeight: 1.2, fontSize: '1rem', color: '#ffffff', textAlign: 'left' }}>
                                     這個計劃的目標是鼓勵青年人在社區中發起並領導具有推動力的項目。透過參與計劃，申請隊伍將有機會學習新技能、發揮才能、創意和愛心，以實踐他們對社區的理念及想法，並回應社區的需求。
+                                </p>
+                                <p style={{ marginTop: 12, marginBottom: 0, lineHeight: 1.2, fontSize: '1rem', color: '#ffffff', textAlign: 'left' }}>
+                                    「點子集氣箱」青年自主資助計劃由香港賽馬會慈善信託基金策劃及捐助，並由香港仔坊會社會服務賽馬會綜合服務處主辦。
                                 </p>
                             </div>
                             <div style={{ display: 'flex', justifyContent: 'center' }}>
                                 <img src={planImg} alt="計劃內容" style={{ width: '100%', height: 'auto', objectFit: 'cover', borderRadius: 8 }} />
                             </div>
                         </div>
+
+                        <section
+                            aria-labelledby="home-timeline-heading"
+                            style={{
+                                marginTop: 24,
+                                paddingTop: 24,
+                                borderTop: '1px solid rgba(255, 255, 255, 0.12)',
+                                textAlign: 'left',
+                            }}
+                        >
+                            <h2 id="home-timeline-heading" style={{ margin: 0, fontSize: '1.6rem', color: '#5588df' }}>
+                                時間表
+                            </h2>
+                            <ol className="home-timeline-horizontal">
+                                {HOME_TIMELINE.map((item) => (
+                                    <li key={item.period}>
+                                        <div className="home-timeline-period">{item.period}</div>
+                                        <div className="home-timeline-detail">{item.detail}</div>
+                                    </li>
+                                ))}
+                            </ol>
+                        </section>
                     </div>
+
                     <div style={{ display: 'flex', justifyContent: 'center', marginTop: 16 }}>
                         <img src={processImg} alt="點子孵化進程" style={{ width: '80%', height: 'auto', display: 'block' }} />
                     </div>
