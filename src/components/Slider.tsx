@@ -4,9 +4,11 @@ import './Slider.css'
 type SliderProps = {
     images: string[]
     altPrefix?: string
+    showDots?: boolean
+    fit?: 'cover' | 'contain'
 }
 
-export default function Slider({ images, altPrefix = 'slide' }: SliderProps) {
+export default function Slider({ images, altPrefix = 'slide', showDots = true, fit = 'cover' }: SliderProps) {
     const validImages = useMemo(() => images.filter(Boolean), [images])
     const [index, setIndex] = useState(0)
     const timerRef = useRef<number | null>(null)
@@ -63,23 +65,25 @@ export default function Slider({ images, altPrefix = 'slide' }: SliderProps) {
                 </svg>
             </button>
             <div className="slider__viewport">
-                <img className="slider__img" src={validImages[index]} alt={`${altPrefix} ${index + 1}`} />
+                <img className={`slider__img slider__img--${fit}`} src={validImages[index]} alt={`${altPrefix} ${index + 1}`} />
             </div>
             <button className="slider__nav slider__nav--right" aria-label="Next" onClick={() => go(1)}>
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path d="M9 18L15 12L9 6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
                 </svg>
             </button>
-            <div className="slider__dots">
-                {validImages.map((_, i) => (
-                    <button
-                        key={i}
-                        className={`slider__dot${i === index ? ' is-active' : ''}`}
-                        aria-label={`Go to slide ${i + 1}`}
-                        onClick={() => goto(i)}
-                    />
-                ))}
-            </div>
+            {showDots && (
+                <div className="slider__dots">
+                    {validImages.map((_, i) => (
+                        <button
+                            key={i}
+                            className={`slider__dot${i === index ? ' is-active' : ''}`}
+                            aria-label={`Go to slide ${i + 1}`}
+                            onClick={() => goto(i)}
+                        />
+                    ))}
+                </div>
+            )}
         </div>
     )
 }

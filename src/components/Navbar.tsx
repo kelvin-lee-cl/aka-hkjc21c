@@ -1,39 +1,15 @@
-import { NavLink } from 'react-router-dom'
+import { NavLink, useLocation } from 'react-router-dom'
 import { useEffect, useState } from 'react'
 import './Navbar.css'
 import logoAKA from '../assets/logo_aka.png'
 
 export default function Navbar() {
-    const [isAdmin, setIsAdmin] = useState<boolean>(false)
-    const [showModal, setShowModal] = useState(false)
-    const [password, setPassword] = useState('')
+    const location = useLocation()
+    const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
 
     useEffect(() => {
-        const saved = localStorage.getItem('aka_is_admin') === 'true'
-        setIsAdmin(saved)
-    }, [])
-
-    const handleLogin = () => {
-        setShowModal(true)
-    }
-
-    const handleLogout = () => {
-        localStorage.removeItem('aka_is_admin')
-        setIsAdmin(false)
-        window.dispatchEvent(new Event('adminStateChange'))
-    }
-
-    const submitPassword = () => {
-        if (password === 'AKA2025') {
-            localStorage.setItem('aka_is_admin', 'true')
-            setIsAdmin(true)
-            setShowModal(false)
-            setPassword('')
-            window.dispatchEvent(new Event('adminStateChange'))
-        } else {
-            alert('密碼不正確')
-        }
-    }
+        setIsMobileMenuOpen(false)
+    }, [location.pathname])
 
     return (
         <nav className="navbar">
@@ -50,30 +26,21 @@ export default function Navbar() {
                         <NavLink to="/apply" className={({ isActive }) => isActive ? 'active' : ''}>報名參加</NavLink>
                     </div>
                 </div>
-                <div className="navbar__right">
-                    {isAdmin ? (
-                        <button onClick={handleLogout} className="btn">登出</button>
-                    ) : (
-                        <button onClick={handleLogin} className="btn">登入</button>
-                    )}
-                </div>
+                <button
+                    type="button"
+                    className="navbar__menu-btn"
+                    aria-label="Toggle navigation menu"
+                    aria-expanded={isMobileMenuOpen}
+                    onClick={() => setIsMobileMenuOpen((prev) => !prev)}
+                >
+                    ☰
+                </button>
             </div>
-            {showModal && (
-                <div style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.45)', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 2000 }}>
-                    <div style={{ background: '#fff', padding: 20, borderRadius: 8, width: 320 }}>
-                        <h3 style={{ marginTop: 0, marginBottom: 12 }}>管理員登入</h3>
-                        <input
-                            type="password"
-                            placeholder="輸入密碼"
-                            value={password}
-                            onChange={(e) => setPassword(e.target.value)}
-                            style={{ width: '100%', padding: '8px 10px', borderRadius: 6, border: '1px solid #ddd' }}
-                        />
-                        <div style={{ display: 'flex', gap: 8, justifyContent: 'flex-end', marginTop: 12 }}>
-                            <button onClick={() => { setShowModal(false); setPassword('') }} className="btn" style={{ background: '#999' }}>取消</button>
-                            <button onClick={submitPassword} className="btn">登入</button>
-                        </div>
-                    </div>
+            {isMobileMenuOpen && (
+                <div className="navbar__mobile-menu">
+                    <NavLink to="/" end className={({ isActive }) => isActive ? 'active' : ''}>主頁</NavLink>
+                    <NavLink to="/works" className={({ isActive }) => isActive ? 'active' : ''}>學生作品</NavLink>
+                    <NavLink to="/apply" className={({ isActive }) => isActive ? 'active' : ''}>報名參加</NavLink>
                 </div>
             )}
         </nav>
